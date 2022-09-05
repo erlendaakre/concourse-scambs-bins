@@ -1,0 +1,13 @@
+jobs:
+- name: scambs-bins-job
+  plan:
+  - task: scambs-bins-task
+    config:
+      platform: linux
+      image_resource:
+        type: registry-image
+        source:
+          repository: busybox
+      run:
+        path: echo
+        args: ["TODO: run scambs scala parser and pipe result to home assistant google tts webhook"]
