@@ -1,6 +1,17 @@
+resources:
+- name: evening-time
+  type: time
+  source:
+    start: 20:00
+    stop: 20:05
+    location: Europe/London
+
 jobs:
 - name: scambs-bins-job
   plan:
+  - get: evening-time
+    trigger: true
+
   - task: scambs-bins-task
     config:
       platform: linux
