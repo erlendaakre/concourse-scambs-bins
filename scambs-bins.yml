@@ -12,13 +12,18 @@ jobs:
   - get: evening-time
     trigger: true
 
-  - task: scambs-bins-task
+  - task: scambs-check-bin-calendar
     config:
       platform: linux
       image_resource:
         type: registry-image
         source:
-          repository: busybox
+          repository: frostvoid/scambs-bins
+          tag: latest
       run:
-        path: echo
-        args: ["TODO: run scambs scala parser and pipe result to home assistant google tts webhook"]
+        path: /bin/bash
+        args:
+          - -c
+          - |
+            cd /app
+            sbt -error run
