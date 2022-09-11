@@ -39,20 +39,19 @@ jobs:
       image_resource:
         type: registry-image
         source:
-          repository: alpine/curl
+          repository: frostvoid/alpine-zsh-curl
       inputs:
         - name: result
       run:
-        path: /bin/sh
+        path: /bin/zsh
         args:
         - -cx
         - |
           data=`cat ./result/output.txt`
           if [[ data ]]; then
-            echo "Data: $data" ; exit
-            exit 0
+            echo "Sending payload to home assistant: $data"
+            curl -X POST -H "Content-Type: application/json" -d '{ "message": "'${data}'" }' http://192.168.1.10:8123/api/webhook/((webhook))
           else
-            echo "NOT SET"
-            exit 1
+            echo "Message was empty"
           fi
 #curl home assistant with output.text IF file is not empty TODO test with empty
