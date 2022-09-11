@@ -47,5 +47,12 @@ jobs:
         args:
         - -cx
         - |
-          cat ./result/output.txt
+          data=`cat ./result/output.txt`
+          if [[ data ]]; then
+            echo "Data: $data" ; exit
+            exit 0
+          else
+            echo "NOT SET"
+            exit 1
+          fi
 #curl home assistant with output.text IF file is not empty TODO test with empty
