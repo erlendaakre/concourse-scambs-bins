@@ -1,6 +1,7 @@
 resources:
 - name: evening-time
   type: time
+  icon: clock
   source:
     start: 20:00
     stop: 20:05
@@ -20,10 +21,31 @@ jobs:
         source:
           repository: frostvoid/scambs-bins
           tag: latest
+      outputs:
+        - name: result
       run:
         path: /bin/bash
         args:
           - -c
           - |
-            cd /app
-            sbt -error run
+            pushd /app
+            sbt -error run > output.txt
+            popd
+            cp /app/output.txt result
+
+  - task: notify-via-homeassistant-webhook
+    config:
+      platform: linux
+      image_resource:
+        type: registry-image
+        source:
+          repository: alpine/curl
+      inputs:
+        - name: result
+      run:
+        path: /bin/sh
+        args:
+        - -cx
+        - |
+          cat ./result/output.txt
+#curl home assistant with output.text IF file is not empty TODO test with empty
