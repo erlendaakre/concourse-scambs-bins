@@ -54,4 +54,3 @@ jobs:
           else
             echo "Message was empty"
           fi
-#curl home assistant with output.text IF file is not empty TODO test with empty
