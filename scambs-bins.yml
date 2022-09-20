@@ -48,7 +48,7 @@ jobs:
         - -cx
         - |
           data=`cat ./result/output.txt`
-          if [ -n data ]
+          if [ -n "$data" ]
           then
             echo "Sending payload to home assistant: $data"
             curl -X POST -H "Content-Type: application/json" -d '{ "message": "'${data}'" }' http://192.168.1.10:8123/api/webhook/((webhook))
